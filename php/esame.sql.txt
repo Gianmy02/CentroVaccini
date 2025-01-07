@@ -1,0 +1,248 @@
+use my_campvax;
+
+
+
+CREATE TABLE Vaccino(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(45) NOT NULL UNIQUE,
+	Dosi_Nec INT(1) UNSIGNED NOT NULL,
+	Eta_Consigliata INT(1) NOT NULL,
+	Fragile INT(1) NOT NULL,
+	Giorni_Attesa INT(2) DEFAULT NULL,
+	Sospeso INT(1) DEFAULT 0,
+	PRIMARY KEY (ID)
+	);	
+	
+CREATE TABLE Regione(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(30) NOT NULL UNIQUE,
+	PRIMARY KEY (ID)
+	);
+	
+CREATE TABLE Utente_Regione(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(30) NOT NULL,
+	Password VARCHAR(70) NOT NULL,
+	IDRegione INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDRegione) REFERENCES Regione(ID)
+	);
+
+CREATE TABLE Provincia(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(30) NOT NULL UNIQUE,
+	IDRegione INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDRegione) REFERENCES Regione(ID)
+	);
+
+CREATE TABLE Utenti(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	CF VARCHAR(120) NOT NULL UNIQUE,
+	Nome VARCHAR(40) NOT NULL,
+	Cognome VARCHAR(60) NOT NULL,
+	Email VARCHAR(50) DEFAULT NULL UNIQUE,
+	Password VARCHAR(70) DEFAULT NULL,
+	Data_Nascita DATE NOT NULL,
+	N_dosi INT(1) UNSIGNED DEFAULT 0,
+	Fragile INT(1) DEFAULT 0,
+	IDProvincia INT(12) DEFAULT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDProvincia) REFERENCES Provincia(ID)
+	);
+	
+	
+CREATE TABLE Sedi(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(60) NOT NULL,
+	Indirizzo VARCHAR(60) NOT NULL,
+	IDProvincia INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDProvincia) REFERENCES Provincia(ID)
+	);
+	
+CREATE TABLE Utente_Sede(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(40) NOT NULL,
+	Cognome VARCHAR(60) NOT NULL,
+	Email VARCHAR(50) NOT NULL UNIQUE,
+	Password VARCHAR(70) NOT NULL,
+	IDSede INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDSede) REFERENCES Sedi(ID)
+	);
+
+CREATE TABLE Disponibilita(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	N_dosi INT(5) UNSIGNED DEFAULT 0,
+	IDVaccino INT(12) NOT NULL,
+	IDSede INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDSede) REFERENCES Sedi(ID),
+	FOREIGN KEY (IDVaccino) REFERENCES Vaccino(ID)
+	);
+
+CREATE TABLE Prenotazione(
+	ID INT(12) NOT NULL AUTO_INCREMENT,
+	Data_Prenotazione DATETIME DEFAULT CURRENT_TIMESTAMP,
+	Data_Iniezione DATE NOT NULL,
+	Ora_Iniezione INT(20) NOT NULL,
+	IDUtente INT(12) NOT NULL,
+	IDDisponibilita INT(12) NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN KEY (IDDisponibilita) REFERENCES Disponibilita(ID),
+	FOREIGN KEY (IDUtente) REFERENCES Utenti(ID)
+	);
+
+INSERT INTO Regione(Nome) VALUES ('Campania');
+
+INSERT INTO Provincia(Nome,IDRegione) VALUES ('Napoli',1);
+INSERT INTO Provincia(Nome,IDRegione) VALUES ('Caserta',1);
+INSERT INTO Provincia(Nome,IDRegione) VALUES ('Benevento',1);
+INSERT INTO Provincia(Nome,IDRegione) VALUES ('Salerno',1);
+INSERT INTO Provincia(Nome,IDRegione) VALUES ('Avellino',1);
+
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('lU0tCbL7zea7j8OKv9ls4luwVtx4wrCOuSgcM0ADnbyiVOQvFHdP0atm0dcvozLNZEqJytKdU3MfjnW9P9yedAqVgajAWQyt/m+IvGJKAzg=','Mario','Rossi','1987-08-06');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('BJTtczs8U/6KclURyy3w7gumuDhzJW7GRfS1vdZWK1ep4IUGjyii5pWM4l/UWFTgi/HGbCmhzQmitr4045ErAl0IrsJGoC24TA+nTkPmzng=','Francesco','Verde','1969-10-23');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('BpfK3cd8FJpPkT71NfuFcwkP9QMoCyggRlJZHvaGm5ABDgwCvxAglz5BI7I1YZ5xtZxIkpaFsaSd8J3prKDaXHy6e3COwDblMf1TwBr6kF8=','Rosa','Bianchi','2000-05-03');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('e9zn3RXrLQdX54wC4Ld/Hxr6NgLc9YFLSxp5bDhRdUVx2CVyvTdx4nNChsGK9HFPMCF0uV+vUaXc5PuoryChFwbv3+2V7POvpW4Cj1X6w30=','Gianmarco','Riviello','2002-06-24');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('qQJKb3ITeIzJU929SfDybsEg72PmMmVoEAkXwLmaXKouXaLaODNQ4Bg/F0oJYN6LFPoTv6Z2/7Dd4hOQECQ3Px5iDVDhffssO9p2XgXEo6w=','Maria','Orsi','1996-05-22');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('+qdRtrEL3Qb3J+VOUUUPgCHQpK2dhDH0g6IUailZAMag9RzXJvDv8vysz/ipjcOgaKbOncIoMqseqzYntvhN0RYhN6wGeV+RqgcfOSM57VU=','Antonella','Esposito','1954-09-04');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('07zaM3ixpyh9ZUgsWwULPcWPk7FcAql+IU0JEsAZ3RAZqgvVqYoLWWQmpRWQyA3uV8wqBeg2LjpaAtYvm64EPiGhxynGzjuVwr4liI/HioQ=','Maria','Coppola','1947-11-10');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('1rn3L32rASBPEaVDg7eYjzGhlfmyKRmS+qJKmuxizv9ms1sXerpxoLdVdvpy/xViKnvUsH46CSwntFWd8pEF8Z3GTSZf29xHmhxFYqYGW6Y=','Marina','Improta','1999-03-19');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('I8g6xcdN9hUPko7s8Qg1InfuO2WyXDo6wEyzz36xchgDYPNiuttb9G12U33TtUe2D8LLA2gpmMIl2TwTyLzLkZZZOKp4noMaTf0tUteD7Rc=','Ivan','Romano','1986-04-06');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('VS7QquJpJJuyrx+YQYzlfznY+FRkpFCO4gTuvP198w/KiBA70o0wdRk5tfYPrfoGm/3TbkR1oSYtYmfe06hlvZiFB+Mmahx+jVqIRayODd8=','Valentino','Paone','1991-02-11');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('AQkOpeZxfFo4YIroIv6FWsAJLOoMmcCu4lDV+K4fCS+Fwe3hlvAprNVWOVfYWXYrRhjF/nWjHnLr28YI1vJaOmaAne/bErKEVtJxY8X1YaA=','Paolo','Isernia','1950-12-29');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('NodP2mZVyrDSc7Xvk2tpshH/V13dZYE/47eQpWUkbwoqGbFYGcGui8qHdU0pDtCTazA1Gg2si93E6h/obBzAKEI2W5FTIiG3gnMWWrocP4M=','Francesca','Lupoli','1960-02-03');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('FURu9UjHvCuJlXFX9pVufN6FL7dJRbcg2yNDN/VP9xkfQ/z/WYJyZSfWn7R5YyblkTWjnyxYzb6018RRTBwiYoiDC+IUGVgIkdqOefyno7Q=','Lorenzo','Ferrari','1992-11-20');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('LUHkefYefrs7LtcmOZLtt5+15I6cAQLiikkghka8ZtQ2hWVfIQrB1IGJqtSROxSSQa+pyVZU4JeYVt39blQOW+HXN9oh389TT+C5nHSmScw=','Valerio','Salvi','1961-02-26');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('TPzy2984p0rrEnpgfc+iGc4kcOW1nUY94//KzXWoeLKtEDFWPbsXmHbcFbrUF3KnsVGn7oG/eD0dGpVY3fdqkO2RLG9Xb+GScm26stdeqYw=','Giovanni','Tavano','1973-01-04');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('QY0fmE3VVk8tpMWD9hCS/JQD1SVpMLf9DY0Flql84frACeGVw7Mv+OGObjlOyDNVRSDSVdSol2cqLkicP/22v3l8/xP6//37gpxm9SqBaGU=','Fabio','Gucci','1993-08-30');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('XBYBpbgiIvTt4JeJp+3kuVaf9bxpkyp6CZFZ0oRLE4MdGWRQZvumieLANGIEQ2Jj9OG/xiRtr2EU2ugtbTkRzP3yDdCUas2VNMfwTZ73s6U=','Umberto','Viola','1949-02-02');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('6CQUtmRl+Paz6UoYZx8fpuiEtmSJswY+ticnXoXpKXwjIFkBbEb1ewh6zyCG6Zlkjf4kABU8T+W5rlX2WgxrZGToztYDlVjKeHlUkzjMdhY=','Fabiana','Fusco','1965-01-13');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('jRW9F1rtMolqcWkSLDjshIu+OqFAKf35DYN6rzqGoWikasvOqjzjymM/TRco/5SqxXemXfonBmdW2bUlCQCnOJify700CYk2KmlvqrF/fNY=','Cristina','Lepore','1958-01-27');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('sBAIkKp/B0ivtFaNi3Rpb4zeNw+scPq5VuV8SnAmbKWomfciUsnZsXSLYw+Mf+nZ9SEqN0LW6VCCk5VBZsbiKcbD6HY5/LQI87t3zBM+H4k=','Federica','Piccolo','1990-07-21');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('hsx2WLnMmLw4fTxx8mQJ5vD0OdCQvh2L3jqR9SlLUEYPyxZKjkZM3opWFUQ44p33uEzwiVR9o54CPXykwUC+hKGgKTtFW4OTZOUOPHR013c=','Ferdinando','Panico','1975-02-05');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('WJlcEkYlW3I4eJ29adC8zZ+vXXh9XcyNEVdmJxVYMwxequPK+0IROccCQUoInfCkpOjOcR9HYswigUnSqXE839IT2cLJVTE0PQMZOijOYsc=','Alessandra','Verga','1961-09-06');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('jedsbubUwqe3jCuLpbFl6gxKqcPUbMg3ydb8PN9opsUjG0mgRYD/UQypkAAplw1/66C1rDqU7K1UMSJtKzVsEoPmJW2qa1Ktfkd7ptqEYMQ=','Mario','Draghi','1984-10-08');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('bVuHRsP/kDxZoRVb1KnBmA/vciR3qFX7BhTFe6cx04ipsgMKhincMS2XK/OPglhNy1IN1psMg6sL4qV4mt6JoVam8tpUqbFruMRkw/SmVqc=','Marino','Irma','1979-10-06');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('0DqBxI0UemGjIpWpZZJ8SRH4Lq9fltE0heIACBJjqn1TIrz0exwJJFwiQVzbSx/TMAbn2sPgq+k7dO9DuITT9hkLX2rhgkNfBp55FdNqRM4=','Anna','Capasso','1997-01-28');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('Er5DlmqCGNl8NAAndvtVyn1NC7hh6ta5ZX7i1PTxX8Vh5leV4nLYhM2WO9LosrMCraPiakjxzyVP7ksmLgrZrecaILo+GJ4VZheu6pa6RzQ=','Simone','Mandato','2002-03-08');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('jfKakWDU54VnbtsJ82AGZtcyKUx2zgI1wKDWt40VE5TUPksT5HCJ/yGepQCyRqNlK03PS3qthoxWaKetCPgvBsqyohPE71ZFS2WHfv54sas=','Angelo','Ragozzino','2002-01-17');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('rD4jwkuv/9Wqxe1NPLWMxV1ehpkkAWPjpWqujKqcNuLSH4XQWicxlEC3BrQXVQ29toCbsdBajQtx/3aOQeySOTCEueT8bQtyW3ejaDo/lnA=','Gaetano','Improta','2003-02-24');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('Hvgq/x9UvME7y5QATyEJXIRF08gjqshyAUmRJRPANt6pOWdek3ZdVAzTO7LklLnPzII1m1ZZpcrNxToJiOiqg/naxHQyDKssx/N+NnR5obQ=','Daniel','Battaglia','2002-07-03');
+INSERT INTO Utenti(CF,Nome,Cognome,Data_Nascita) VALUES ('UUw8i//jBjJM2XqxOkxyvnXMabk7i3c1qVghNl3j1IVPHpLFDD/L3AYvKgqu/zOSePHVLQusfImdYqUX8CpnXEAgK/EUPjBbSrDaQi6qcLw=','Francesco','Orabona','2002-07-19');
+INSERT INTO Utenti (CF,Nome,Cognome,Data_Nascita) VALUES ('Ix697efc0jOq5MlVx55aGfYqjYpkrU3eUSXUtTI51Q9i9VLUG0BK5KRaHZ9W0EaB5UjJfhIriZ+zonsuoFgKqvbEGST4GMuVSOMsEHzD+RU=','Pasquale','Portento','2003-01-04');
+
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ("Azienda Ospedaliera Sant'Anna e San Sebastiano",'Via F.Palasciano',2);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Presidio Ospedaliero Maddaloni','Via Liberta',2);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Brigata Bersaglieri Garibaldi','Via Laviano',2);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Azienda Ospedaliera Antonio Cardarelli','Via Antonio Cardarelli',1);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Ospedale Domenico Cotugno','Via Gaetano Quagliariello',1);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Ospedale Santo Bono','Via Mario Fiore',1);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Azienda Ospedaliera San Giuseppe Moscati','Contrada Amoretta',5);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ("Ospedale San Francesco D'Assisi",'Via Michele Clemente',4);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Presidio Ospedaliero di Agropoli','Contrada Marrota',4);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Presidio Ospedaliero Immacolata Sapri','Via Giuseppe Verdi',4);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Azienda Ospedaliera San Pio','Via Raffaele Delcogliano',3);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('Centro Sociale Fenestrelle','Via Garibaldi',5);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('A.S.L. Avellino','Via degli Imbimbo',5);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ('A.S.L. Benevento','Via Oderisio',3);
+INSERT INTO Sedi(Nome,Indirizzo,IDProvincia) VALUES ("Ospedale Sant'Alfonso Maria de'Liguori","Contrada San Pietro(Sant'Agata de'Goti)",3);
+
+INSERT INTO Vaccino(Nome,Dosi_Nec,Eta_Consigliata,Fragile,Giorni_Attesa) VALUES ('Pfizer-BioNTech',2,18,1,21);
+INSERT INTO Vaccino(Nome,Dosi_Nec,Eta_Consigliata,Fragile,Giorni_Attesa) VALUES ('Moderna',2,18,1,28);
+INSERT INTO Vaccino(Nome,Dosi_Nec,Eta_Consigliata,Fragile,Giorni_Attesa) VALUES ('AstraZeneca',2,60,0,75);
+INSERT INTO Vaccino(Nome,Dosi_Nec,Eta_Consigliata,Fragile) VALUES ('Johnson & Johnson',1,18,0);
+
+
+INSERT INTO Utente_Regione(Nome,Password,IDRegione) VALUES ('Regione Campania','_J9..rasmVQDzmKXj.Dg',1);
+
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Francesco','Rossi','francesco.rossi@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',3);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Lorenzo','Ricci','lorenzo.ricci@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',3);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Sara','Dante','sara.dante@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',1);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Tommaso','Lupoli','tommaso.lupoli@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',2);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Gianni','Versace','gianni.versace@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',3);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Mattia','Fusco','mattia.fusco@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',2);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Paola','Marino','paola.marino@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',2);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Daniela','Bianchi','daniela.bianchi@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',1);
+INSERT INTO Utente_Sede(Nome,Cognome,Email,Password,IDSede) VALUES ('Gennaro','Esposito','gennaro.esposito@vaccinicampania.com','_J9..rasmVQDzmKXj.Dg',1);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,1);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,1);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,1);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (700,3,1);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,2);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,2);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,2);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,2);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,3);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,3);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,3);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,3);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,4);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,4);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,4);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,4);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,5);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,5);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,5);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,5);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,6);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,6);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,6);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,6);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,7);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,7);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,7);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,7);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,8);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,8);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,8);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,8);
+
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,9);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,9);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,9);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,9);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,10);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,10);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,10);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,10);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,11);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,11);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,11);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,11);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,12);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,12);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,12);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,12);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,13);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,13);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,13);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,13);
+
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,14);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,14);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,14);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,14);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (300,1,15);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (200,2,15);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (100,4,15);
+INSERT INTO Disponibilita (N_dosi,IDVaccino,IDSede) VALUES (500,3,15);
+
+
+
+

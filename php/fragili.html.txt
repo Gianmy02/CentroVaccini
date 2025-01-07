@@ -1,0 +1,178 @@
+<HTML>
+	<HEAD>
+
+		<TITLE> PRENOTA IL TUO VACCINO </TITLE>
+
+<style>
+@import url(https://fonts.googleapis.com/css?family=Montserrat:900|Raleway:400,400i,700,700i);
+/*** VARIABLES ***/
+/* Colors */
+/*** EXTEND ***/
+/* box-shadow */
+ol.gradient-list > li::before, ol.gradient-list > li {
+  box-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05), 0 0.5rem 1.125rem rgba(75, 0, 0, 0.05);
+}
+
+/*** STYLE ***/
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #fafafa;
+  color: #1d1f20;
+  font-family: "Raleway", sans-serif;
+}
+
+main {
+  display: block;
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 1rem;
+}
+
+ol.gradient-list {
+  counter-reset: gradient-counter;
+  list-style: none;
+  margin: 1.75rem 0;
+  padding-left: 1rem;
+}
+ol.gradient-list > li {
+  background: white;
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
+  counter-increment: gradient-counter;
+  margin-top: 1rem;
+  min-height: 3rem;
+  padding: 1rem 1rem 1rem 3rem;
+  position: relative;
+}
+ol.gradient-list > li::before, ol.gradient-list > li::after {
+  background: linear-gradient(135deg, #83e4e2 0%, #a2ed56 100%);
+  border-radius: 1rem 1rem 0 1rem;
+  content: "";
+  height: 3rem;
+  left: -1rem;
+  overflow: hidden;
+  position: absolute;
+  top: -1rem;
+  width: 3rem;
+}
+ol.gradient-list > li::before {
+  align-items: flex-end;
+  content: counter(gradient-counter);
+  color: #1d1f20;
+  display: flex;
+  font: 900 1.5em/1 "Montserrat";
+  justify-content: flex-end;
+  padding: 0.125em 0.25em;
+  z-index: 1;
+}
+ol.gradient-list > li:nth-child(10n+1):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.2) 0%, rgba(253, 220, 50, 0.2) 100%);
+}
+ol.gradient-list > li:nth-child(10n+2):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.4) 0%, rgba(253, 220, 50, 0.4) 100%);
+}
+ol.gradient-list > li:nth-child(10n+3):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.6) 0%, rgba(253, 220, 50, 0.6) 100%);
+}
+ol.gradient-list > li:nth-child(10n+4):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.8) 0%, rgba(253, 220, 50, 0.8) 100%);
+}
+ol.gradient-list > li:nth-child(10n+5):before {
+  background: linear-gradient(135deg, #a2ed56 0%, #fddc32 100%);
+}
+ol.gradient-list > li:nth-child(10n+6):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.8) 0%, rgba(253, 220, 50, 0.8) 100%);
+}
+ol.gradient-list > li:nth-child(10n+7):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.6) 0%, rgba(253, 220, 50, 0.6) 100%);
+}
+ol.gradient-list > li:nth-child(10n+8):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.4) 0%, rgba(253, 220, 50, 0.4) 100%);
+}
+ol.gradient-list > li:nth-child(10n+9):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0.2) 0%, rgba(253, 220, 50, 0.2) 100%);
+}
+ol.gradient-list > li:nth-child(10n+10):before {
+  background: linear-gradient(135deg, rgba(162, 237, 86, 0) 0%, rgba(253, 220, 50, 0) 100%);
+}
+ol.gradient-list > li + li {
+  margin-top: 2rem;
+}
+</style>
+	</HEAD>
+	<BODY>
+	<main>
+		<h1>INFORMATIVA SULLE PERSONE FRAGILI</h1>
+		<h2>Sono comprese in questo elenco tutte le persone che devono dichiararsi fragili alla registrazione ai fini della scelta del vaccino corretto per ognuno</h2>
+		
+		<ol class="gradient-list">
+			<li><b>Insufficienza renale/patologia renale</b></li> Persone sottoposte a trattamento dialitico cronico
+			<li><b>Patologia oncoematologica</b></li>Pazienti onco-ematologici in trattamento con farmaci immunosoppressivi, mielosoppressivi o a meno di 6 mesi dalla sospensione delle cure.
+			Sono inclusi in questa categoria anche i loro conviventi
+			<li><b>Trapianto di organo solido e di cellule staminali emopoietiche Pazienti in lista di attesa o trapiantati di organo solido</b></li>
+			Pazienti in attesa o sottoposti a trapianto (sia autologo che allogenico) di cellule staminali emopoietiche (CSE) dopo i 3 mesi e fino a un anno quando viene generalmente sospesa la terapia immunosoppressiva
+			Pazienti trapiantati di CSE anche dopo il primo anno, nel caso che abbiano sviluppato una malattia del trapianto contro l ospite cronica, in terapia immunosoppressiva.
+			Sono inclusi in questa categoria anche i loro conviventi.
+			<li><b>Emoglobinopatie</b></li>
+			Persone con talassemia o anemia a cellule falciformi
+			<li><b>HIV</b></li>
+			Persone con diagnosi di AIDS o con conta dei CD4 inferiore a 200.
+
+			
+
+			<li><b>Malattie respiratorie</b></li>
+			Persone con fibrosi polmonare idiopatica
+			Persone con altre patologie che necessitino di ossigenoterapia compresi pazienti in CPAP (OSAS)
+			<li><b>Malattie cardiocircolatorie gravi</b></li>
+			Persone con scompenso cardiaco in classe avanzata (III-IV NYHA)
+			Pazienti post shock cardiogeno
+			<li><b>Malattie neurologiche</b></li>
+			Pazienti con sclerosi laterale amiotrofica e altre malattie del motoneurone
+			Persone con sclerosi multipla
+			Persone con distrofia muscolare
+			Persone con paralisi cerebrali infantili
+			Persone in trattamento con farmaci biologici o terapie immunodepressive e i loro conviventi. Sono inclusi in questa categoria anche i loro conviventi
+			Pazienti con miastenia gravis
+			Pazienti con patologie neurologiche disimmuni: sindrome di Guillain-Barre e sue varianti (sindrome di Miller Fisher); poliradicoloneuropatia cronica infiammatoria demielinizzante (CIDP) (un tempo considerata la variante cronica della Guillain-Barre); neuropatia motoria multifocale (MMN); neuropatie associate a vasculiti; neuropatie associate a gammopatie monoclonali
+			<li><b>Diabete/altre endocrinopatie severe come il morbo di Addison</b></li>
+			Tutte le persone con diabete di tipo 1 e 2
+			Persone con il morbo di Addison
+			Persone con panipopituitarismo
+			<li><b>Fibrosi cistica</b></li>
+			Persone da considerare per definizione ad alta fragilita per le implicazioni respiratorie tipiche della patologia di base
+			<li><b>Malattia epatica</b></li>
+			Persone con diagnosi di cirrosi epatica
+			<li><b>Malattie cerebrovascolari</b></li>
+			Persone che hanno subito uno stroke nel 2020 e per gli anni precedenti con ranking maggiore o uguale a 3
+			<li><b>Patologia oncologica</b></li>
+			Pazienti oncologici in fase di attiva di nuova diagnosi
+			Pazienti in trattamento chemio/radio-terapico o che hanno sospeso la terapia immunosoppressiva e/o mielosoppressiva da meno di sei mesi. Sono inclusi in questa categoria anche i loro conviventi
+			Pazienti con patologia tumorale maligna in fase avanzata non in remissione
+			<li><b>Sindrome di Down</b></li>
+			Persone con sindrome di Down, in ragione della loro parziale competenza immunologica e della molto frequente presenza di cardiopatie congenite
+			<li><b>Grave obesita'</b></li>
+			Persone con BMI maggiore di 35
+			<li><b>Malattie autoimmuni - Immunodeficienze primitive</b></li>
+			Pazienti con grave compromissione polmonare o marcata immunodeficienza
+			Pazienti con immunodepressione secondaria a trattamento terapeutico.
+
+
+			<li><b>Disabilita fisica, sensoriale, intellettiva, psichica</b></li>
+			Sono inclusi in questa categoria anche i loro conviventi e caregiver che forniscono assistenza continuativa.
+			In caso di minori che rientrano nella definizione di estremamente vulnerabili e che non possono essere vaccinati per mancanza di vaccini indicati per la loro fascia di eta, e' prevista la vaccinazione per i genitori, i tutori o gli affidatari. 
+		</ol>
+		</main>
+		<a href="javascript:history.go(-1)" onMouseOver="self.status=document.referrer;return true" style="color:red;">Ritorna all'Area Richiesta Vaccino</a>
+
+	</BODY>
+</HTML>
